@@ -88,9 +88,7 @@ function getImageUrls(
 
 function getSvgs(imageUrls: Dictionary<string>): Promise<Dictionary<string>> {
   return Promise.all(
-    Object.values(imageUrls).map(
-      async imageUrl =>
-        await axios(imageUrl)
+      axios(imageUrl)
           .then(({ data }) => data)
           .then(optimizeSvg),
     ),

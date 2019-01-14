@@ -88,9 +88,10 @@ function getImageUrls(
 
 function getSvgs(imageUrls: Dictionary<string>): Promise<Dictionary<string>> {
   return Promise.all(
+    Object.values(imageUrls).map(imageUrl =>
       axios(imageUrl)
-          .then(({ data }) => data)
-          .then(optimizeSvg),
+        .then(({ data }) => data)
+        .then(optimizeSvg),
     ),
   ).then(svgs => zipObject(Object.keys(imageUrls), svgs))
 }
@@ -114,6 +115,7 @@ function composeData(
   )
 }
 
+/** Turns a list of components into an object indexing components by size */
 function indexBySize(components: Figma.Component[]) {
   return indexBy(component => {
     const { width, height } = component.absoluteBoundingBox

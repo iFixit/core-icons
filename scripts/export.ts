@@ -33,7 +33,7 @@ async function main() {
 
   spinner.info(`Figma file key: ${fileKey}`)
 
-  spinner.start('Getting components')
+  spinner.start('Fetching components')
   const document = await getDocument(client, fileKey)
   const components = getComponents(document)
   if (components.length === 0) throw new Error('No components found')

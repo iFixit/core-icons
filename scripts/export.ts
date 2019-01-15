@@ -5,13 +5,11 @@ import * as Figma from 'figma-js'
 import fs from 'fs-extra'
 import { minify } from 'html-minifier'
 import { Dictionary } from 'lodash'
-import { flatMap, groupBy, indexBy, mapValues, zipObject } from 'lodash/fp'
+import { flatMap, zipObject } from 'lodash/fp'
 import ora from 'ora'
 import path from 'path'
 import Svgo from 'svgo'
 import { figma } from '../package.json'
-
-const OUT_DIR = path.resolve(process.cwd(), 'dist')
 
 // Initialize dotenv.
 dotenv.config()
@@ -28,6 +26,8 @@ main().catch(handleError)
 
 /** Entry point. */
 async function main() {
+  const outDir = path.resolve(process.cwd(), 'icons')
+
   const client = Figma.Client({ personalAccessToken: process.env.FIGMA_TOKEN })
   const fileKey = process.env.FIGMA_FILE_KEY || figma.fileKey
 
@@ -37,19 +37,26 @@ async function main() {
   const document = await getDocument(client, fileKey)
   const components = getComponents(document)
   if (components.length === 0) throw new Error('No components found')
-  spinner.succeed(`Found ${components.length} components`)
 
-  spinner.start('Exporting components')
+  spinner.start('Fetching image URLs')
   const imageUrls = await getImageUrls(client, fileKey, components)
-  const svgs = await getSvgs(imageUrls)
-  spinner.succeed(`Exported ${Object.keys(svgs).length} components`)
 
-  spinner.start('Writing data')
-  const data = composeData(components, svgs)
-  const outFile = path.join(OUT_DIR, 'data.json')
-  fs.ensureDirSync(OUT_DIR)
-  fs.writeFileSync(outFile, JSON.stringify(data))
-  spinner.succeed(`Wrote data to ${path.relative(process.cwd(), outFile)}`)
+  spinner.start('Downloading SVGs')
+  const svgs = await getSvgs(imageUrls)
+  writeSvgs(outDir, components, svgs)
+
+  spinner.succeed(
+    `Exported ${components.length} icons to ${path.relative(
+      process.cwd(),
+      outDir,
+    )}`,
+  )
+}
+
+/** Displays error message and exits. */
+function handleError(error: Error) {
+  spinner.fail(`[Error] ${error.message}`)
+  process.exit(1)
 }
 
 function getDocument(client: Figma.ClientInterface, fileKey: string) {
@@ -101,31 +108,36 @@ function optimizeSvg(svg: string) {
   return svgo.optimize(svg).then(({ data }) => data)
 }
 
-function composeData(
+/** Writes SVGs to outDir */
+function writeSvgs(
+  outDir: string,
   components: Figma.Component[],
-  svgs: { [id: string]: string },
+  svgs: Dictionary<string>,
 ) {
-  return mapValues(
-    components =>
-      mapValues(
-        component => getSvgContents(svgs[component.id]),
-        indexBySize(components),
-      ),
-    groupBy('name', components),
-  )
+  components.forEach(component => {
+    const size = getSize(component)
+    const contents = getSvgContents(svgs[component.id])
+    const dir = path.join(outDir, size.toString())
+    fs.ensureDirSync(dir)
+    fs.writeFileSync(
+      path.join(dir, `${component.name}.svg`),
+      toSvg(size, contents),
+    )
+  })
 }
 
-/** Turns a list of components into an object indexing components by size */
-function indexBySize(components: Figma.Component[]) {
-  return indexBy(component => {
-    const { width, height } = component.absoluteBoundingBox
+/**
+ * Gets the frame size of a component.
+ * Throws an error if the width and height do not match.
+ */
+function getSize(component: Figma.Component) {
+  const { width, height } = component.absoluteBoundingBox
 
-    if (width !== height) {
-      throw new Error(`${component.name}: width and height do not match`)
-    }
+  if (width !== height) {
+    throw new Error(`${component.name}: width and height do not match`)
+  }
 
-    return width
-  }, components)
+  return width
 }
 
 /** Gets contents between opening and closing <svg> tags. */
@@ -134,8 +146,22 @@ function getSvgContents(svg: string) {
   return minify($('svg').html() || '', { collapseWhitespace: true })
 }
 
-/** Displays error message and exits. */
-function handleError(error: Error) {
-  spinner.fail(`[Error] ${error.message}`)
-  process.exit(1)
+/** Creates an SVG string. */
+function toSvg(size: number, contents: string) {
+  const attrs = {
+    xmlns: 'http://www.w3.org/2000/svg',
+    width: size,
+    height: size,
+    viewBox: `0 0 ${size} ${size}`,
+    fill: 'currentColor',
+  }
+
+  return `<svg ${attrsToString(attrs)}>${contents}</svg>`
+}
+
+/** Converts attributes object to string of HTML attributes. */
+function attrsToString(attrs: Dictionary<string | number>) {
+  return Object.keys(attrs)
+    .map(key => `${key}="${attrs[key]}"`)
+    .join(' ')
 }

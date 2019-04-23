@@ -10,6 +10,7 @@ import ora from 'ora'
 import path from 'path'
 import Svgo from 'svgo'
 import { figma } from '../package.json'
+import {paramCase} from 'change-case'
 
 // Initialize dotenv.
 dotenv.config()
@@ -43,10 +44,11 @@ async function main() {
 
   spinner.start('Downloading SVGs')
   const svgs = await getSvgs(imageUrls)
+  await fs.emptyDir(outDir)
   writeSvgs(outDir, components, svgs)
 
   spinner.succeed(
-    `Exported ${components.length} icons to ${path.relative(
+    `Exported ${components.length} icons to ./${path.relative(
       process.cwd(),
       outDir,
     )}`,
@@ -115,14 +117,18 @@ function writeSvgs(
   svgs: Dictionary<string>,
 ) {
   components.forEach(component => {
-    const size = getSize(component)
-    const contents = getSvgContents(svgs[component.id])
-    const dir = path.join(outDir, size.toString())
-    fs.ensureDirSync(dir)
-    fs.writeFileSync(
-      path.join(dir, `${component.name}.svg`),
-      toSvg(size, contents),
-    )
+    try {
+      const size = getSize(component)
+      const contents = getSvgContents(svgs[component.id])
+      const dir = path.join(outDir, size.toString())
+      fs.ensureDirSync(dir)
+      fs.writeFileSync(
+        path.join(dir, `${paramCase(component.name)}.svg`),
+        toSvg(size, contents),
+      )
+    } catch (error) {
+      spinner.info(`Skipping ${component.name}: ${error.message}`)
+    }
   })
 }
 
@@ -134,7 +140,7 @@ function getSize(component: Figma.Component) {
   const { width, height } = component.absoluteBoundingBox
 
   if (width !== height) {
-    throw new Error(`${component.name}: width and height do not match`)
+    throw new Error(`width (${width}) and height (${height}) do not match`)
   }
 
   return width

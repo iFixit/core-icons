@@ -10,7 +10,7 @@ import ora from 'ora'
 import path from 'path'
 import Svgo from 'svgo'
 import { figma } from '../package.json'
-import {paramCase} from 'change-case'
+import { paramCase } from 'change-case'
 
 // Initialize dotenv.
 dotenv.config()

@@ -6,6 +6,7 @@
     "export": "ts-node bin/export.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "files": ["icons"],
   "figma": {
     "fileKey": "09lHp7uC4KO5MWsaYX5OQQBw"
   },

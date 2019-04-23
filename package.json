@@ -1,6 +1,6 @@
 {
   "name": "@core-ds/icons",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "",
   "scripts": {
     "figma-pull": "ts-node --project bin/tsconfig.json bin/figma-pull.ts",

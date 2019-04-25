@@ -171,3 +171,4 @@ function attrsToString(attrs: Dictionary<string | number>) {
     .map(key => `${key}="${attrs[key]}"`)
     .join(' ')
 }
+

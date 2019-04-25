@@ -41,7 +41,21 @@ cd core-icons
 
 # Install dependencies
 npm install
+
+# Add your Figma access token
+# (generate an access token using the instructions below)
+echo "FIGMA_TOKEN=<paste-your-token-here>" > .env
 ```
+
+### Generating a Figma access token
+
+1. Login to your [Figma](https://figma.com) account.
+2. Head to the **Account Settings** from the top-left menu inside Figma.
+3. Find the **Personal Access Tokens** section.
+4. Click **Create new token**.
+5. A token will be generated. This will be your only chance to copy the token, so make sure you keep a copy of this in a secure place.
+
+See [Figma's developer docs](https://www.figma.com/developers/docs#access-tokens) for more information.
 
 ### Adding or updating an icon
 
@@ -100,4 +114,3 @@ After your pull request has been approved and the package version has been bumpe
 After your pull request have been merged, [create a new release](https://help.github.com/en/articles/creating-releases) to document your changes. Use the tag you generated in step 6 to create the release.
 
 Done 🎉
-

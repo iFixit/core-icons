@@ -1,12 +1,14 @@
 {
   "name": "@core-ds/icons",
-  "version": "0.2.5",
+  "version": "0.2.11",
   "description": "",
+  "main": ".",
+  "sideEffects": false,
   "scripts": {
-    "figma-pull": "ts-node --project bin/tsconfig.json bin/figma-pull.ts",
-    "svgr": "svgr --out-dir tmp --ext tsx icons",
-    "generate-entrypoints": "ts-node --project bin/tsconfig.json bin/generate-entrypoints.ts tmp/16 tmp/24",
-    "build": "tsc --outDir . --target es5 --jsx react --declaration tmp/**/*.{ts,tsx}",
+    "figma-pull": "ts-node --project ./bin ./bin/figma-pull.ts",
+    "svgr": "svgr --out-dir ./tmp --ext tsx ./icons",
+    "generate-entrypoints": "ts-node --project ./bin ./bin/generate-entrypoints.ts ./tmp/16 ./tmp/24",
+    "build": "tsc --outDir . --target es5 --jsx react --declaration ./tmp/**/*.{ts,tsx}",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [

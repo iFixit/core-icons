@@ -42,9 +42,10 @@ cd core-icons
 # Install dependencies
 npm install
 
-# Add your Figma access token
-# (generate an access token using the instructions below)
+# Add your Figma access token (generate an access token using the instructions below)
 echo "FIGMA_TOKEN=<paste-your-token-here>" > .env
+# This token gives us access to the Figma API which
+# allows us to export icons directly from a Figma file.
 ```
 
 ### Generating a Figma access token

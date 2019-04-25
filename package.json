@@ -10,7 +10,7 @@
     "generate-entrypoints": "ts-node --project ./bin/tsconfig.json ./bin/generate-entrypoints.ts ./tmp/16 ./tmp/24",
     "build": "tsc --outDir . --target es5 --jsx react --declaration ./tmp/**/*.ts ./tmp/**/*.tsx",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postversion": "git push --tags"
+    "postversion": "git push && git push --tags"
   },
   "files": [
     "icons",

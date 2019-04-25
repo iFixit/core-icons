@@ -87,7 +87,7 @@ After your pull request has been approved, bump the package version by running:
 npm version [patch | minor | major]
 ```
 
-`npm version` will bump the version and write the new data back to `package.json` and `package-lock.json`. It will also create and push a version commit and tag.
+[`npm version`](https://docs.npmjs.com/cli/version.html) will bump the version and write the new data back to `package.json` and `package-lock.json`. It will also create and push a version commit and tag.
 
 > **Note:** In the context of Core Icons, significant changes to the library or workflow, or removing an icon would be considered a major update, adding a new icon would be considered a minor update, and fixing an icon would be considered a patch.
 

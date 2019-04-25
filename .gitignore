@@ -1,6 +1,6 @@
 .DS_Store
 .env
-node_modules/
-tmp/
-16/
-24/
+node_modules
+tmp
+/16
+/24

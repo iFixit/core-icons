@@ -1,4 +1,4 @@
-# Core Icons
+<img width="966" alt="core-icons" src="https://user-images.githubusercontent.com/705973/56824120-a0a7b400-6823-11e9-938c-49fe9d013320.png">
 
 [![npm version](https://img.shields.io/npm/v/@core-ds/icons.svg?style=flat-square)](https://www.npmjs.com/package/@core-ds/icons)
 

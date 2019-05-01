@@ -14,6 +14,8 @@ npm install @core-ds/icons
 
 ## Usage
 
+### React
+
 ```jsx
 import { AlertCircle } from '@core-ds/icons/16' // Import 16px icons
 import { Clipboard } from '@core-ds/icons/24' // Import 24px icons
@@ -26,6 +28,13 @@ function Example() {
     </div>
   )
 }
+```
+
+### PHTML
+
+```phtml
+<?= coreIcon('alert-circle', 16) ?>
+<?= coreIcon('clipboard', 24) ?>
 ```
 
 ## Contributing

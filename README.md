@@ -2,9 +2,8 @@
 
 [![npm version](https://img.shields.io/npm/v/@core-ds/icons.svg?style=flat-square)](https://www.npmjs.com/package/@core-ds/icons)
 
-**⚠️ Work in progress**
-
-[Figma file](https://www.figma.com/file/09lHp7uC4KO5MWsaYX5OQQBw/Core-Icons)
+* [Reference](https://core-icons.netlify.com/)
+* [Figma](https://www.figma.com/file/09lHp7uC4KO5MWsaYX5OQQBw/Core-Icons)
 
 ## Installation
 

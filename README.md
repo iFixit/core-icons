@@ -34,6 +34,7 @@ function Example() {
 ```phtml
 <?= coreIcon('alert-circle', 16) ?>
 <?= coreIcon('clipboard', 24) ?>
+<?= coreIcon('alert-circle') ?> <!-- Defaults to 16 if no size is specified. -->
 ```
 
 ## Contributing

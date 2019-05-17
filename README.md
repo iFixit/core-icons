@@ -113,11 +113,11 @@ npm version [patch | minor | major]
 
 [`npm version`](https://docs.npmjs.com/cli/version.html) will bump the version and write the new data back to `package.json` and `package-lock.json`. It will also create and push a version commit and tag.
 
-> **Note:** In the context of Core Icons, significant changes to the library or workflow, or removing an icon would be considered a major update, adding a new icon would be considered a minor update, and fixing an icon would be considered a patch.
+> **Note:** In the context of Core Icons, significant changes to the library or workflow, or removing an icon would be considered a major update, adding a new icon would be considered a minor update, and fixing an icon would be considered a patch. Non-code changes (e.g. documentation) do not require a version bump.
 
 #### 7. Merge into master
 
-After your pull request has been approved and the package version has been bumped, go ahead and [merge the pull request](https://help.github.com/en/articles/merging-a-pull-request) into master. We have a GitHub action set up to automatically publish the npm package when a commit is pushed to master.
+After your pull request has been approved and the package version has been bumped, go ahead and [merge the pull request](https://help.github.com/en/articles/merging-a-pull-request) into master. You don't have to worry about publishing to npm because we have a GitHub action set up to automatically publish the package when a commit is pushed to master.
 
 #### 8. Create a release
 

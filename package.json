@@ -1,6 +1,6 @@
 {
   "name": "@core-ds/icons",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "",
   "main": ".",
   "sideEffects": false,
@@ -39,7 +39,7 @@
     "@types/ora": "^3.0.0",
     "@types/react": "^16.8.14",
     "@types/svgo": "^1.0.1",
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "change-case": "^3.1.0",
     "cheerio": "^1.0.0-rc.2",
     "dotenv": "^6.2.0",

@@ -1,0 +1,31 @@
+name: NPM Build and Publish
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install and build
+      run: |
+        npm ci
+        npm run svgr
+        npm run generate-entrypoints
+        npm run build
+    - name: npm publish
+      if: github.ref == 'refs/heads/master'
+      run: |
+        npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
+        npm publish --access public
+      env: 
+        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

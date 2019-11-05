@@ -1,4 +1,4 @@
-name: Node CI
+name: NPM Build and Publish
 
 on: [push]
 
@@ -23,5 +23,9 @@ jobs:
         npm run svgr
         npm run generate-entrypoints
         npm run build
-      env:
-        CI: true
+    - name: npm publish
+      if: github.ref == 'refs/heads/master'
+      env: 
+        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      run: |
+        npm publish --access public
